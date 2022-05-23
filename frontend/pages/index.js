@@ -1,3 +1,11 @@
-const Index = () => <h2> Index Pages</h2>;
+import Layout from '../components/Layout';
 
-export default Index
+const Index = () => {
+    return (
+        <Layout>
+            <h2>Index page</h2>
+        </Layout>
+    );
+};
+
+export default Index;
