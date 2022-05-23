@@ -2,6 +2,7 @@ const User = require('../models/user');
 const shortId = require('shortid');
 const jwt = require('jsonwebtoken');
 const {expressjwt} = require('express-jwt');
+require('dotenv').config()
 
 exports.signup = (req, res) => {
     User.findOne({ email: req.body.email }).exec((err, user) => {
@@ -69,6 +70,5 @@ exports.signout = (req, res) => {
 }
 
 exports.requireSignin = expressjwt({
-    secret: "JA34H", algorithms: ['HS256']
+    secret: process.env.JWT_SECRET, algorithms: [process.env.ALGORITHMS]
 });
-

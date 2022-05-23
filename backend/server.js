@@ -6,6 +6,7 @@ const cors = require('cors')
 const blog_Routes = require('./routes/blogRoute');
 const auth_Routes = require('./routes//authRoute');
 
+
 require ('dotenv').config()
 
 
@@ -14,7 +15,7 @@ const app = express()
 
 //Connect Mongodb
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE_LOCAL,()=>{
+mongoose.connect(process.env.DATABASE_CLOUD,()=>{
     console.log('DB connected')
 });
 
@@ -29,6 +30,8 @@ app.use(cors())
 // Routes Middleware
 app.use('/api', blog_Routes)
 app.use('/api', auth_Routes)
+
+
 
 //port
 const port = process.env.PORT || 5000
