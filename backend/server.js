@@ -4,7 +4,8 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const blog_Routes = require('./routes/blogRoute');
-const auth_Routes = require('./routes//authRoute');
+const auth_Routes = require('./routes/authRoute');
+const post_Routes = require('./routes/postRoute');
 
 
 require ('dotenv').config()
@@ -15,7 +16,7 @@ const app = express()
 
 //Connect Mongodb
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE_CLOUD,()=>{
+mongoose.connect(process.env.DATABASE_LOCAL,()=>{
     console.log('DB connected')
 });
 
@@ -30,6 +31,7 @@ app.use(cors())
 // Routes Middleware
 app.use('/api', blog_Routes)
 app.use('/api', auth_Routes)
+app.use('/api', post_Routes)
 
 
 

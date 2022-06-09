@@ -1,6 +1,7 @@
+import React from 'react';
 import { useState } from 'react';
+import {APP_NAME} from '../config'
 import Link from 'next/link';
-import { APP_NAME } from '../config';
 import {
   Collapse,
   Navbar,
@@ -9,10 +10,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
 } from 'reactstrap';
 
 const Header = () => {

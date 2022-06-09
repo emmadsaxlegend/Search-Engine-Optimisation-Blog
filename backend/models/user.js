@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true
         },
+        account: {
+            type: Number,
+            required: true,
+            unique: true,
+        },
         profile: {
             type: String,
             required: true

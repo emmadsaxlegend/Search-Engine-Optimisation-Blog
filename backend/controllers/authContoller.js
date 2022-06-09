@@ -12,11 +12,18 @@ exports.signup = (req, res) => {
             })
         }
 
-        const { name, email, password } = req.body
+        User.findOne({account: req.body.account}).exec((err, user) =>{
+            if (user) {
+                return res.status(400).json({
+                    error: 'Account Number is taken'
+                })
+            }
+
+        const { name, email, password, account } = req.body
         let username = shortId.generate()
         let profile = `${process.env.CLIENT_URL}/profile/${username}`
 
-        let newUser = new User({ name, email, password, profile, username })
+        let newUser = new User({ name, email, password, account, profile, username })
         newUser.save((err, success) => {
             if (err) {
                 return res.status(400).json({
@@ -27,22 +34,25 @@ exports.signup = (req, res) => {
                 user: success
             })
         })
+        })
+        
+
     })
 }
 
 exports.signin = (req, res) => {
-    const { email, password } = req.body
+    const { account, password} = req.body
     // check if user exist
-    User.findOne({ email }).exec((err, user) => {
+    User.findOne({ account }).exec((err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: "User with that email does not exist. Please signup"
+                error: "Account Number is invalid. Please signup"
             });
         }
         // authenticate
         if (!user.authenticate(password)) {
             return res.status(400).json({
-                error: "Email and password do not match. Please try again"
+                error: "Invalid Account Number and password. Please try again"
             })
         }
         // generate a json web token and send to client
@@ -52,10 +62,10 @@ exports.signin = (req, res) => {
             { expiresIn: '1d' })
 
         res.cookie('token', token, { expiresIn: '1d' })
-        const {_id, username, name, email, role} = user
+        const {_id, username, name, email, account, role} = user
         return res.json({
             token,
-            user: {_id, username, name, email, role} 
+            user: {_id, username, name, email, account, role} 
         })
     })
 
