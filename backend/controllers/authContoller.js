@@ -5,40 +5,34 @@ const {expressjwt} = require('express-jwt');
 require('dotenv').config()
 
 exports.signup = (req, res) => {
+    // console.log(req.body);
     User.findOne({ email: req.body.email }).exec((err, user) => {
         if (user) {
             return res.status(400).json({
                 error: 'Email is taken'
-            })
+            });
         }
 
-        User.findOne({account: req.body.account}).exec((err, user) =>{
-            if (user) {
-                return res.status(400).json({
-                    error: 'Account Number is taken'
-                })
-            }
+        const { name, email, password } = req.body;
+        let username = shortId.generate();
+        let profile = `${process.env.CLIENT_URL}/profile/${username}`;
 
-        const { name, email, password, account } = req.body
-        let username = shortId.generate()
-        let profile = `${process.env.CLIENT_URL}/profile/${username}`
-
-        let newUser = new User({ name, email, password, account, profile, username })
+        let newUser = new User({ name, email, password, profile, username });
         newUser.save((err, success) => {
             if (err) {
                 return res.status(400).json({
                     error: err
-                })
+                });
             }
+            // res.json({
+            //     user: success
+            // });
             res.json({
-                user: success
-            })
-        })
-        })
-        
-
-    })
-}
+                message: 'Signup success! Please signin.'
+            });
+        });
+    });
+};
 
 exports.signin = (req, res) => {
     const { account, password} = req.body
@@ -82,3 +76,4 @@ exports.signout = (req, res) => {
 exports.requireSignin = expressjwt({
     secret: process.env.JWT_SECRET, algorithms: [process.env.ALGORITHMS]
 });
+

@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const blog_Routes = require('./routes/blogRoute');
 const auth_Routes = require('./routes/authRoute');
-const post_Routes = require('./routes/postRoute');
 
 
 require ('dotenv').config()
@@ -31,7 +30,6 @@ app.use(cors())
 // Routes Middleware
 app.use('/api', blog_Routes)
 app.use('/api', auth_Routes)
-app.use('/api', post_Routes)
 
 
 
